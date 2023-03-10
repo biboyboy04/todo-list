@@ -1,10 +1,10 @@
-const contentDiv = document.getElementById('content');
+const todoListDiv = document.getElementById('todo-list');
 
 const todoListHeaderDiv = document.createElement('div');
-todoListHeaderDiv.className = 'todo-list-header';
+todoListHeaderDiv.className = 'header';
 
 const todoListHeaderTitleDiv = document.createElement('div');
-todoListHeaderTitleDiv.className = 'todo-list-header-title';
+todoListHeaderTitleDiv.className = 'title';
 todoListHeaderTitleDiv.innerText = 'TO:DO';
 
 const redButtonImg = document.createElement('img');
@@ -13,13 +13,13 @@ redButtonImg.src = '../src/assets/red-button2.png';
 redButtonImg.alt = '';
 
 const todoListBodyDiv = document.createElement('div');
-todoListBodyDiv.className = 'todo-list-body';
+todoListBodyDiv.className = 'body';
 
 const projectListDiv = document.createElement('div');
-projectListDiv.className = 'project-list';
+projectListDiv.id = 'project-list';
 
 const projectListTitleDiv = document.createElement('div');
-projectListTitleDiv.className = 'project-list-title';
+projectListTitleDiv.className = 'title';
 projectListTitleDiv.innerText = 'Projects';
 
 const projectContainerDiv = document.createElement('div');
@@ -46,7 +46,7 @@ addImgProject.src = '../src/assets/add.png';
 addImgProject.alt = '';
 
 const projectActionsContainerDiv = document.createElement('div');
-projectActionsContainerDiv.className = 'project-actions-container';
+projectActionsContainerDiv.className = 'actions-container';
 
 const editImg = document.createElement('img');
 editImg.src = '../src/assets/edit.png';
@@ -57,7 +57,7 @@ deleteImg.src = '../src/assets/delete.png';
 deleteImg.alt = '';
 
 const taskListDiv = document.createElement('div');
-taskListDiv.className = 'task-list';
+taskListDiv.id = 'task-list';
 
 const sortByDateDiv = document.createElement('div');
 sortByDateDiv.className = 'sort-by-date';
@@ -87,7 +87,7 @@ addImgTask.src = '../src/assets/add.png';
 addImgTask.alt = '';
 
 const taskActionsContainerDiv = document.createElement('div');
-taskActionsContainerDiv.className = 'task-actions-container';
+taskActionsContainerDiv.className = 'actions-container';
 
 const taskEditImg = document.createElement('img');
 taskEditImg.src = '../src/assets/edit.png';
@@ -133,12 +133,12 @@ projectListDiv.appendChild(projectActionsContainerDiv);
 todoListBodyDiv.appendChild(projectListDiv);
 todoListBodyDiv.appendChild(taskListDiv);
 
-contentDiv.appendChild(todoListBodyDiv);
+todoListDiv.appendChild(todoListBodyDiv);
 
 todoListHeaderDiv.appendChild(todoListHeaderTitleDiv);
 todoListHeaderDiv.appendChild(redButtonImg);
 
-contentDiv.appendChild(todoListHeaderDiv);
+todoListDiv.appendChild(todoListHeaderDiv);
 
 function createProject(projectName){
     const projectDiv = document.createElement('div');
@@ -194,7 +194,7 @@ projectAddDiv.addEventListener('click', () => {
   const projectTitleInput = document.createElement('input');
   projectTitleInput.type = 'text';
   projectTitleInput.placeholder = 'Enter project title';
-  projectTitleInput.className = 'projectTitleInput';
+  projectTitleInput.className = 'project-title-input';
 
   const okButton = document.createElement('button');
   okButton.innerText = 'OK';
