@@ -25,19 +25,6 @@ projectListTitleDiv.innerText = 'Projects';
 const projectContainerDiv = document.createElement('div');
 projectContainerDiv.className = 'project-container';
 
-const projectDiv = document.createElement('div');
-projectDiv.className = 'project';
-
-const bookImg = document.createElement('img');
-bookImg.src = '../src/assets/book.png';
-bookImg.alt = '';
-
-const projectNameDiv = document.createElement('div');
-projectNameDiv.className = 'project-name';
-projectNameDiv.innerText = 'All';
-
-const projectHr = document.createElement('hr');
-
 const projectAddDiv = document.createElement('div');
 projectAddDiv.className = 'project-add';
 
@@ -50,10 +37,12 @@ projectActionsContainerDiv.className = 'actions-container';
 
 const editImg = document.createElement('img');
 editImg.src = '../src/assets/edit.png';
+editImg.className = 'project-edit-btn';
 editImg.alt = '';
 
 const deleteImg = document.createElement('img');
 deleteImg.src = '../src/assets/delete.png';
+deleteImg.className = 'project-delete-btn';
 deleteImg.alt = '';
 
 const taskListDiv = document.createElement('div');
@@ -118,12 +107,6 @@ projectActionsContainerDiv.appendChild(editImg);
 projectActionsContainerDiv.appendChild(deleteImg);
 
 projectAddDiv.appendChild(addImgProject);
-
-projectDiv.appendChild(bookImg);
-projectDiv.appendChild(projectNameDiv);
-projectDiv.appendChild(projectHr);
-
-projectContainerDiv.appendChild(projectDiv);
 projectContainerDiv.appendChild(projectAddDiv);
 
 projectListDiv.appendChild(projectListTitleDiv);
@@ -140,9 +123,12 @@ todoListHeaderDiv.appendChild(redButtonImg);
 
 todoListDiv.appendChild(todoListHeaderDiv);
 
+var projectNumber = 0;
+
 function createProject(projectName){
     const projectDiv = document.createElement('div');
     projectDiv.className = 'project';
+    projectDiv.setAttribute('data-project-number', projectNumber);
 
     const projectImg = document.createElement('img');
     projectImg.src = '../src/assets/book.png';
@@ -159,10 +145,17 @@ function createProject(projectName){
     projectDiv.appendChild(projectHr);
     projectContainerDiv.appendChild(projectDiv);
 
-
     projectContainerDiv.appendChild(projectAddDiv);
 
+    projectNumber++; 
+
 }
+
+function deleteProject(projectId){
+  const projectDiv = document.querySelector(`[data-project-number="${projectId}"]`);
+  projectDiv.remove();
+}
+
 
 function createTask(taskName){
     const taskDiv = document.createElement('div');
@@ -189,20 +182,19 @@ createProject("asdas");
 createTask("taskName1");
 
 
-
 projectAddDiv.addEventListener('click', () => {
   const projectTitleInput = document.createElement('input');
   projectTitleInput.type = 'text';
   projectTitleInput.placeholder = 'Enter project title';
-  projectTitleInput.className = 'project-title-input';
+  projectTitleInput.className = 'title-input';
 
   const okButton = document.createElement('button');
   okButton.innerText = 'OK';
-  okButton.className = 'button-ok';
+  okButton.className = 'ok-btn';
 
   const cancelButton = document.createElement('button');
   cancelButton.innerText = 'Cancel';
-  cancelButton.className = 'button-cancel';
+  cancelButton.className = 'cancel-btn';
 
   const form = document.createElement('form');
   form.id = "project-form";
@@ -225,9 +217,98 @@ projectAddDiv.addEventListener('click', () => {
   });
 });
 
+function deleteProject(project) {
+  const projectTitleInput = document.createElement('p');
+  projectTitleInput.textContent = 'Delete project?';
+  projectTitleInput.className = 'delete-text';
+
+  const cancelButton = document.createElement('button');
+  cancelButton.innerText = 'Cancel';
+  cancelButton.className = 'cancel-btn';
+
+  const deleteButton = document.createElement('button');
+  deleteButton.innerText = 'Delete';
+  deleteButton.className = 'delete-btn';
+
+  const form = document.createElement('form');
+  form.id = "project-form";
+
+  form.appendChild(projectTitleInput);
+  form.appendChild(cancelButton);
+  form.appendChild(deleteButton);
+
+  project.replaceWith(form);
+
+  
+  cancelButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      form.replaceWith(project);
+  });
+
+  deleteButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    form.remove();
+  });
+}
 
 
 
+const projectDeleteBtn = document.querySelector('.project-delete-btn');
+
+projectDeleteBtn.addEventListener('click', () => {
+  const projectElements = document.querySelectorAll('.project');
+  for (let i = 0; i < projectElements.length; i++) {
+      projectElements[i].classList.toggle('tilt-shake');
+      projectElements[i].addEventListener('click', () => {
+        deleteProject(projectElements[i]);
+      })
+  }
+});
 
 
+function editProject(project) {
+  const projectTitleInput = document.createElement('input');
+  projectTitleInput.type = 'text';
+  projectTitleInput.placeholder = 'Enter new title name';
+  projectTitleInput.className = 'title-input';
 
+  const okButton = document.createElement('button');
+  okButton.innerText = 'OK';
+  okButton.className = 'ok-btn';
+
+  const cancelButton = document.createElement('button');
+  cancelButton.innerText = 'Cancel';
+  cancelButton.className = 'cancel-btn';
+
+  const form = document.createElement('form');
+  form.id = "project-form";
+  form.appendChild(projectTitleInput);
+  form.appendChild(okButton);
+  form.appendChild(cancelButton);
+
+  project.replaceWith(form);
+
+  okButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    var projectName = project.querySelector(".project-name");
+    projectName.textContent = projectTitleInput.value;
+    form.replaceWith(project);
+  });
+
+  cancelButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    form.replaceWith(project);
+  });
+}
+
+const projectEditBtn = document.querySelector('.project-edit-btn');
+
+projectEditBtn.addEventListener('click', () => {
+  const projectElements = document.querySelectorAll('.project');
+  for (let i = 0; i < projectElements.length; i++) {
+      projectElements[i].classList.toggle('tilt-shake');
+      projectElements[i].addEventListener('click', () => {
+        editProject(projectElements[i]);
+      })
+  }
+});
